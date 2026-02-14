@@ -1,0 +1,59 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { equal } from "./equal.ts";
+import { format } from "jsr:@std/internal@^1.0.4/format";
+import { AssertionError } from "./assertion_error.ts";
+
+/** An array-like object (`Array`, `Uint8Array`, `NodeList`, etc.) that is not a string */
+export type ArrayLikeArg<T> = ArrayLike<T> & object;
+
+/**
+ * Make an assertion that `actual` includes the `expected` values. If not then
+ * an error will be thrown.
+ *
+ * Type parameter can be specified to ensure values under comparison have the
+ * same type.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertArrayIncludes } from "@std/assert";
+ *
+ * assertArrayIncludes([1, 2], [2]); // Doesn't throw
+ * assertArrayIncludes([1, 2], [3]); // Throws
+ * ```
+ *
+ * @typeParam T The type of the elements in the array to compare.
+ * @param actual The array-like object to check for.
+ * @param expected The array-like object to check for.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertArrayIncludes<T>(
+  actual: ArrayLikeArg<T>,
+  expected: ArrayLikeArg<T>,
+  msg?: string,
+) {
+  const missing: unknown[] = [];
+  for (let i = 0; i < expected.length; i++) {
+    let found = false;
+    for (let j = 0; j < actual.length; j++) {
+      if (equal(expected[i], actual[j])) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      missing.push(expected[i]);
+    }
+  }
+  if (missing.length === 0) {
+    return;
+  }
+
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  msg = `Expected actual: "${format(actual)}" to include: "${
+    format(expected)
+  }"${msgSuffix}\nmissing: ${format(missing)}`;
+  throw new AssertionError(msg);
+}
+
+// denoCacheMetadata={"headers":{"x-goog-stored-content-length":"1743","etag":"\"f493c625eafbed4daa314d0afe4c889b\"","x-robots-tag":"noindex","x-goog-hash":"crc32c=0LqKww==,md5=9JPGJer77U2qMU0K/kyImw==","vary":"Origin","date":"Sat, 14 Feb 2026 07:37:34 GMT","cache-control":"public, max-age=31536000, immutable","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=TbWRt7tPw0i9cSap2FEMLY8p5BvEBOftieZI8AyN2ITm0mObj3rJB1h48JhRwwmUyhlH7lV3kRbbHOhHUTIQxiLfpNzFgQ%3D%3D\"}]}","accept-ranges":"bytes","content-type":"text/typescript","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","alt-svc":"h3=\":443\"; ma=86400","x-goog-metageneration":"1","content-length":"1743","expires":"Sun, 14 Feb 2027 07:37:34 GMT","access-control-allow-origin":"*","x-content-type-options":"nosniff","server":"cloudflare","cross-origin-resource-policy":"cross-origin","cf-cache-status":"DYNAMIC","x-goog-generation":"1727173874972762","x-goog-storage-class":"STANDARD","x-goog-stored-content-encoding":"identity","access-control-expose-headers":"*","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","cf-ray":"9cdae6a7ecb422a0-CDG","x-jsr-backend":"modules","age":"0","x-guploader-uploadid":"AJRbA5U9drLiJ7WNk16w1UPcQdVcHDuZba1sVCON9bVfyqN4LkMm9ut4fUgHVSCLxMS1uxiV_1jU0pc"},"url":"https://jsr.io/@std/assert/1.0.6/array_includes.ts","time":1771054657}

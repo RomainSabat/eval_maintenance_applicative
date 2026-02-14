@@ -1,0 +1,31 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { format } from "jsr:@std/internal@^1.0.4/format";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` is less than `expected`.
+ * If not then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertLess } from "@std/assert";
+ *
+ * assertLess(1, 2); // Doesn't throw
+ * assertLess(2, 1); // Throws
+ * ```
+ *
+ * @typeParam T The type of the values to compare.
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertLess<T>(actual: T, expected: T, msg?: string) {
+  if (actual < expected) return;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+  throw new AssertionError(msg ?? `Expect ${actualString} < ${expectedString}`);
+}
+
+// denoCacheMetadata={"headers":{"cf-cache-status":"DYNAMIC","etag":"\"cdc042fed83c759f8294d537db24781c\"","cross-origin-resource-policy":"cross-origin","cf-ray":"9cdae6a7ecbe22a0-CDG","date":"Sat, 14 Feb 2026 07:37:34 GMT","accept-ranges":"bytes","expires":"Sun, 14 Feb 2027 07:37:34 GMT","alt-svc":"h3=\":443\"; ma=86400","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-jsr-backend":"modules","access-control-allow-origin":"*","access-control-expose-headers":"*","x-goog-storage-class":"STANDARD","x-goog-hash":"crc32c=03jjkg==,md5=zcBC/tg8dZ+ClNU32yR4HA==","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","vary":"Origin","x-goog-metageneration":"1","x-robots-tag":"noindex","server":"cloudflare","x-goog-generation":"1727173874962125","content-type":"text/typescript","x-goog-stored-content-encoding":"identity","content-length":"967","x-goog-stored-content-length":"967","cache-control":"public, max-age=31536000, immutable","x-content-type-options":"nosniff","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=yF6Nh5VyyXpMn1pM6k2VdkJ%2F3W%2Fnhl8BC90S%2Fosaew8EJIUBuxa%2BqAzh6DULpWsQM12IjkZM0spFft9tvg24iKF4t11RcA%3D%3D\"}]}","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-guploader-uploadid":"AJRbA5Wyyp31gGS26pEFYZLmSKVI-qk4a4IeZPZvWAEAc7HN4PT49ntn8dmivk2K7Pw9-ytBcdzY9kM"},"url":"https://jsr.io/@std/assert/1.0.6/less.ts","time":1771054657}

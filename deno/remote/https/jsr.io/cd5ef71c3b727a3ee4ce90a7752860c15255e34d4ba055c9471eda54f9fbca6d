@@ -1,0 +1,125 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+import { assertIsError } from "./is_error.ts";
+
+/**
+ * Executes a function which returns a promise, expecting it to reject.
+ *
+ * To assert that a synchronous function throws, use {@linkcode assertThrows}.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertRejects } from "@std/assert";
+ *
+ * await assertRejects(async () => Promise.reject(new Error())); // Doesn't throw
+ * await assertRejects(async () => console.log("Hello world")); // Throws
+ * ```
+ *
+ * @param fn The function to execute.
+ * @param msg The optional message to display if the assertion fails.
+ * @returns The promise which resolves to the thrown error.
+ */
+export function assertRejects(
+  fn: () => PromiseLike<unknown>,
+  msg?: string,
+): Promise<unknown>;
+/**
+ * Executes a function which returns a promise, expecting it to reject.
+ * If it does not, then it throws. An error class and a string that should be
+ * included in the error message can also be asserted.
+ *
+ * To assert that a synchronous function throws, use {@linkcode assertThrows}.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertRejects } from "@std/assert";
+ *
+ * await assertRejects(async () => Promise.reject(new Error()), Error); // Doesn't throw
+ * await assertRejects(async () => Promise.reject(new Error()), SyntaxError); // Throws
+ * ```
+ *
+ * @typeParam E The error class to assert.
+ * @param fn The function to execute.
+ * @param ErrorClass The error class to assert.
+ * @param msgIncludes The string that should be included in the error message.
+ * @param msg The optional message to display if the assertion fails.
+ * @returns The promise which resolves to the thrown error.
+ */
+export function assertRejects<E extends Error = Error>(
+  fn: () => PromiseLike<unknown>,
+  // deno-lint-ignore no-explicit-any
+  ErrorClass: abstract new (...args: any[]) => E,
+  msgIncludes?: string,
+  msg?: string,
+): Promise<E>;
+export async function assertRejects<E extends Error = Error>(
+  fn: () => PromiseLike<unknown>,
+  errorClassOrMsg?:
+    // deno-lint-ignore no-explicit-any
+    | (abstract new (...args: any[]) => E)
+    | string,
+  msgIncludesOrMsg?: string,
+  msg?: string,
+): Promise<E | Error | unknown> {
+  // deno-lint-ignore no-explicit-any
+  let ErrorClass: (abstract new (...args: any[]) => E) | undefined;
+  let msgIncludes: string | undefined;
+  let err;
+
+  if (typeof errorClassOrMsg !== "string") {
+    if (
+      errorClassOrMsg === undefined ||
+      errorClassOrMsg.prototype instanceof Error ||
+      errorClassOrMsg.prototype === Error.prototype
+    ) {
+      ErrorClass = errorClassOrMsg;
+      msgIncludes = msgIncludesOrMsg;
+    }
+  } else {
+    msg = errorClassOrMsg;
+  }
+  let doesThrow = false;
+  let isPromiseReturned = false;
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  try {
+    const possiblePromise = fn();
+    if (
+      possiblePromise &&
+      typeof possiblePromise === "object" &&
+      typeof possiblePromise.then === "function"
+    ) {
+      isPromiseReturned = true;
+      await possiblePromise;
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    if (!isPromiseReturned) {
+      throw new AssertionError(
+        `Function throws when expected to reject${msgSuffix}`,
+      );
+    }
+    if (ErrorClass) {
+      if (!(error instanceof Error)) {
+        throw new AssertionError(`A non-Error object was rejected${msgSuffix}`);
+      }
+      assertIsError(
+        error,
+        ErrorClass,
+        msgIncludes,
+        msg,
+      );
+    }
+    err = error;
+    doesThrow = true;
+  }
+  if (!doesThrow) {
+    throw new AssertionError(
+      `Expected function to reject${msgSuffix}`,
+    );
+  }
+  return err;
+}
+
+// denoCacheMetadata={"headers":{"cf-ray":"9cdae6a7ecc622a0-CDG","cf-cache-status":"DYNAMIC","cross-origin-resource-policy":"cross-origin","cache-control":"public, max-age=31536000, immutable","alt-svc":"h3=\":443\"; ma=86400","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","date":"Sat, 14 Feb 2026 07:37:34 GMT","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","x-jsr-backend":"modules","expires":"Sun, 14 Feb 2027 07:37:34 GMT","vary":"Origin","x-goog-metageneration":"1","x-goog-generation":"1727173874895156","x-content-type-options":"nosniff","server":"cloudflare","x-goog-stored-content-encoding":"identity","etag":"\"2a296a5b18a6ec5943b65d745a8aced9\"","x-guploader-uploadid":"AJRbA5UKT_Utv3cYMJ4vQPf0vX299W856u3CspzZOQWZPvvYwQaNXOFX3LElL9Zf783fir2a","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=rviE9CEo6Oa08WrqsHKjbL7hJDh%2F6aEvGmvslQaez%2BORg9rfDwy1pcUpTTvG%2FycLl9S8gE4ERf9AADgBlH9dKjvboS68XQ%3D%3D\"}]}","x-goog-stored-content-length":"3788","content-length":"3788","x-goog-hash":"crc32c=pW8P2A==,md5=KilqWxim7FlDtl10WorO2Q==","content-type":"text/typescript","access-control-expose-headers":"*","access-control-allow-origin":"*","accept-ranges":"bytes","x-robots-tag":"noindex","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-storage-class":"STANDARD"},"url":"https://jsr.io/@std/assert/1.0.6/rejects.ts","time":1771054657}

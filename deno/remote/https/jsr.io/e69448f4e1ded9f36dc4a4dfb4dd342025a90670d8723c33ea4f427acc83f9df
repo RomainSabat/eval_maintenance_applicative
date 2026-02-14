@@ -1,0 +1,69 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { buildMessage } from "jsr:@std/internal@^1.0.4/build-message";
+import { diff } from "jsr:@std/internal@^1.0.4/diff";
+import { diffStr } from "jsr:@std/internal@^1.0.4/diff-str";
+import { format } from "jsr:@std/internal@^1.0.4/format";
+import { red } from "jsr:@std/internal@^1.0.4/styles";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` and `expected` are strictly equal, using
+ * {@linkcode Object.is} for equality comparison. If not, then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertStrictEquals } from "@std/assert";
+ *
+ * const a = {};
+ * const b = a;
+ * assertStrictEquals(a, b); // Doesn't throw
+ *
+ * const c = {};
+ * const d = {};
+ * assertStrictEquals(c, d); // Throws
+ * ```
+ *
+ * @typeParam T The type of the expected value.
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertStrictEquals<T>(
+  actual: unknown,
+  expected: T,
+  msg?: string,
+): asserts actual is T {
+  if (Object.is(actual, expected)) {
+    return;
+  }
+
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  let message: string;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+
+  if (actualString === expectedString) {
+    const withOffset = actualString
+      .split("\n")
+      .map((l) => `    ${l}`)
+      .join("\n");
+    message =
+      `Values have the same structure but are not reference-equal${msgSuffix}\n\n${
+        red(withOffset)
+      }\n`;
+  } else {
+    const stringDiff = (typeof actual === "string") &&
+      (typeof expected === "string");
+    const diffResult = stringDiff
+      ? diffStr(actual as string, expected as string)
+      : diff(actualString.split("\n"), expectedString.split("\n"));
+    const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
+    message = `Values are not strictly equal${msgSuffix}\n${diffMsg}`;
+  }
+
+  throw new AssertionError(message);
+}
+
+// denoCacheMetadata={"headers":{"date":"Sat, 14 Feb 2026 07:37:34 GMT","cache-control":"public, max-age=31536000, immutable","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-jsr-backend":"modules","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","access-control-expose-headers":"*","alt-svc":"h3=\":443\"; ma=86400","cross-origin-resource-policy":"cross-origin","x-goog-storage-class":"STANDARD","x-robots-tag":"noindex","x-goog-metageneration":"1","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-generation":"1727173875026545","etag":"\"6fa21e6ec9fd8325dfd583a993a1f7de\"","expires":"Sun, 14 Feb 2027 07:37:34 GMT","x-goog-stored-content-encoding":"identity","content-type":"text/typescript","age":"0","x-content-type-options":"nosniff","x-goog-hash":"crc32c=1vS41g==,md5=b6Iebsn9gyXf1YOpk6H33g==","server":"cloudflare","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=1BvjoTpvlc5V3QjSR3usWjwQfLkkyR6ZXbCO0DY729Iz3WC1UJd1sVQJUWHCyoK58ZGT%2BNl3n4%2FCNTNkazky1Dy5yL65JA%3D%3D\"}]}","vary":"Origin","x-guploader-uploadid":"AJRbA5XOpgvoHXJJb_Gsdux2ab5Ws2kL4rP-LlyVaTXXNcqmjvJiDiHvzZjX7a0pgwzDslo0","cf-cache-status":"DYNAMIC","access-control-allow-origin":"*","x-goog-stored-content-length":"2140","content-length":"2140","accept-ranges":"bytes","cf-ray":"9cdae6a7ecc822a0-CDG"},"url":"https://jsr.io/@std/assert/1.0.6/strict_equals.ts","time":1771054657}

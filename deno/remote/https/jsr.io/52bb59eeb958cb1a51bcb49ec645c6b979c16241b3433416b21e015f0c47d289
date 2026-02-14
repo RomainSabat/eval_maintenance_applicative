@@ -1,0 +1,44 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+import { format } from "jsr:@std/internal@^1.0.4/format";
+
+/**
+ * Make an assertion that `actual` and `expected` are not strictly equal, using
+ * {@linkcode Object.is} for equality comparison. If the values are strictly
+ * equal then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertNotStrictEquals } from "@std/assert";
+ *
+ * assertNotStrictEquals(1, 1); // Throws
+ * assertNotStrictEquals(1, 2); // Doesn't throw
+ *
+ * assertNotStrictEquals(0, 0); // Throws
+ * assertNotStrictEquals(0, -0); // Doesn't throw
+ * ```
+ *
+ * @typeParam T The type of the values to compare.
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertNotStrictEquals<T>(
+  actual: T,
+  expected: T,
+  msg?: string,
+) {
+  if (!Object.is(actual, expected)) {
+    return;
+  }
+
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  throw new AssertionError(
+    `Expected "actual" to not be strictly equal to: ${
+      format(actual)
+    }${msgSuffix}\n`,
+  );
+}
+
+// denoCacheMetadata={"headers":{"x-goog-generation":"1727173875002933","accept-ranges":"bytes","x-goog-metageneration":"1","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-goog-stored-content-encoding":"identity","server":"cloudflare","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","date":"Sat, 14 Feb 2026 07:37:35 GMT","access-control-allow-origin":"*","cf-cache-status":"DYNAMIC","cache-control":"public, max-age=31536000, immutable","x-jsr-backend":"modules","age":"0","vary":"Origin","content-length":"1244","access-control-expose-headers":"*","x-robots-tag":"noindex","content-type":"text/typescript","cross-origin-resource-policy":"cross-origin","x-guploader-uploadid":"AJRbA5V9Kra3ngtHRDxQVK4JgWL1CzgWfCstt5sxb0g94OkI90Q9ponjZzNz36ZunbAYBote","x-goog-stored-content-length":"1244","alt-svc":"h3=\":443\"; ma=86400","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-storage-class":"STANDARD","x-goog-hash":"crc32c=6vrMaA==,md5=4bp4BMoj0FPxm2J9jY6QyA==","x-content-type-options":"nosniff","cf-ray":"9cdae6a7ecc322a0-CDG","etag":"\"e1ba7804ca23d053f19b627d8d8e90c8\"","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=M%2FZkgVqvGEGWk1aDmr%2Fe14kF2Ry7LX0AHCK5P55o7HqH4zFE45HzH8yBO69l56lZICnolmgMFKZ2KIZICihiQTMv35QYiA%3D%3D\"}]}","expires":"Sun, 14 Feb 2027 07:37:35 GMT"},"url":"https://jsr.io/@std/assert/1.0.6/not_strict_equals.ts","time":1771054657}

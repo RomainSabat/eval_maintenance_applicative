@@ -1,0 +1,54 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { equal } from "./equal.ts";
+import { buildMessage } from "jsr:@std/internal@^1.0.4/build-message";
+import { diff } from "jsr:@std/internal@^1.0.4/diff";
+import { diffStr } from "jsr:@std/internal@^1.0.4/diff-str";
+import { format } from "jsr:@std/internal@^1.0.4/format";
+
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` and `expected` are equal, deeply. If not
+ * deeply equal, then throw.
+ *
+ * Type parameter can be specified to ensure values under comparison have the
+ * same type.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertEquals } from "@std/assert";
+ *
+ * assertEquals("world", "world"); // Doesn't throw
+ * assertEquals("hello", "world"); // Throws
+ * ```
+ *
+ * @typeParam T The type of the values to compare. This is usually inferred.
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertEquals<T>(
+  actual: T,
+  expected: T,
+  msg?: string,
+) {
+  if (equal(actual, expected)) {
+    return;
+  }
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  let message = `Values are not equal${msgSuffix}`;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+  const stringDiff = (typeof actual === "string") &&
+    (typeof expected === "string");
+  const diffResult = stringDiff
+    ? diffStr(actual as string, expected as string)
+    : diff(actualString.split("\n"), expectedString.split("\n"));
+  const diffMsg = buildMessage(diffResult, { stringDiff }).join("\n");
+  message = `${message}\n${diffMsg}`;
+  throw new AssertionError(message);
+}
+
+// denoCacheMetadata={"headers":{"etag":"\"d7bd89da4cbcff084243f855e5802fc8\"","x-goog-metageneration":"1","x-content-type-options":"nosniff","content-type":"text/typescript","alt-svc":"h3=\":443\"; ma=86400","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","cf-cache-status":"DYNAMIC","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-guploader-uploadid":"AJRbA5WtoYp8pR4K2EQ9KOBrtioOH48LymjywxLR2WOkKRQc7y65BnBV3mdNRInwNf3nf3w7","cf-ray":"9cdae6a7ecb522a0-CDG","server":"cloudflare","x-goog-stored-content-length":"1791","access-control-allow-origin":"*","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","vary":"Origin","expires":"Sun, 14 Feb 2027 07:37:34 GMT","access-control-expose-headers":"*","x-robots-tag":"noindex","cache-control":"public, max-age=31536000, immutable","x-goog-generation":"1727173874988317","x-goog-storage-class":"STANDARD","age":"0","cross-origin-resource-policy":"cross-origin","x-jsr-backend":"modules","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xAgl05aFDeAwyeAd1xObjtoS2Xyxmx0YqLsAiwgtOu5eH%2BfBF1DMtusHo%2FpA6t5fCIqu4xwGcAR8tk1SrgeasW%2FEVIKJig%3D%3D\"}]}","x-goog-stored-content-encoding":"identity","content-length":"1791","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-goog-hash":"crc32c=Narvtw==,md5=172J2ky8/whCQ/hV5YAvyA==","accept-ranges":"bytes"},"url":"https://jsr.io/@std/assert/1.0.6/equals.ts","time":1771054657}

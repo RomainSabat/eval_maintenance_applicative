@@ -1,0 +1,23 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Use this to stub out methods that will throw when invoked.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { unimplemented } from "@std/assert";
+ *
+ * unimplemented(); // Throws
+ * ```
+ *
+ * @param msg Optional message to include in the error.
+ * @returns Never returns, always throws.
+ */
+export function unimplemented(msg?: string): never {
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  throw new AssertionError(`Unimplemented${msgSuffix}`);
+}
+
+// denoCacheMetadata={"headers":{"x-content-type-options":"nosniff","x-goog-storage-class":"STANDARD","x-guploader-uploadid":"AJRbA5UtTVzOKpalag-k_UjejdpX0DRhts7IsCeJotN9y6hOQPgK5f5rNswhvkgaNwDJuxJlJm4IGR0","access-control-allow-origin":"*","content-type":"text/typescript","cf-ray":"9cdae6a7eccf22a0-CDG","cache-control":"public, max-age=31536000, immutable","x-jsr-backend":"modules","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-robots-tag":"noindex","alt-svc":"h3=\":443\"; ma=86400","x-goog-stored-content-encoding":"identity","x-goog-hash":"crc32c=tWkQNA==,md5=fVSMnjuCcRMxky16097UTQ==","access-control-expose-headers":"*","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","accept-ranges":"bytes","x-goog-metageneration":"1","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","expires":"Sun, 14 Feb 2027 07:37:34 GMT","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=nMQC1gHIEB7mXYzlHohSNr2lmpU%2BqYxykIqXgPfXP9L3PzWFJ39zyuLN8aspxlZTC2YayEtJfk8xMRqUwL0Y6SSYfR7Pog%3D%3D\"}]}","server":"cloudflare","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-stored-content-length":"621","cf-cache-status":"DYNAMIC","cross-origin-resource-policy":"cross-origin","etag":"\"7d548c9e3b82711331932d7ad3ded44d\"","x-goog-generation":"1727173874947359","content-length":"621","vary":"Origin"},"url":"https://jsr.io/@std/assert/1.0.6/unimplemented.ts","time":1771054657}

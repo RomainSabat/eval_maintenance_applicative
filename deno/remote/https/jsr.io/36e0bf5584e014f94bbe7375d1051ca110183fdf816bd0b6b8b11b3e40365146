@@ -1,0 +1,57 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` and `expected` are almost equal numbers
+ * through a given tolerance. It can be used to take into account IEEE-754
+ * double-precision floating-point representation limitations. If the values
+ * are not almost equal then throw.
+ *
+ * The default tolerance is one hundred thousandth of a percent of the
+ * expected value.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertAlmostEquals } from "@std/assert";
+ *
+ * assertAlmostEquals(0.01, 0.02); // Throws
+ * assertAlmostEquals(1e-8, 1e-9); // Throws
+ * assertAlmostEquals(1.000000001e-8, 1.000000002e-8); // Doesn't throw
+ * assertAlmostEquals(0.01, 0.02, 0.1); // Doesn't throw
+ * assertAlmostEquals(0.1 + 0.2, 0.3, 1e-16); // Doesn't throw
+ * assertAlmostEquals(0.1 + 0.2, 0.3, 1e-17); // Throws
+ * ```
+ *
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param tolerance The tolerance to consider the values almost equal. The
+ * default is one hundred thousandth of a percent of the expected value.
+ * @param msg The optional message to include in the error.
+ */
+export function assertAlmostEquals(
+  actual: number,
+  expected: number,
+  tolerance?: number,
+  msg?: string,
+) {
+  if (Object.is(actual, expected)) {
+    return;
+  }
+  const delta = Math.abs(expected - actual);
+  if (tolerance === undefined) {
+    tolerance = isFinite(expected) ? Math.abs(expected * 1e-7) : 1e-7;
+  }
+  if (delta <= tolerance) {
+    return;
+  }
+
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  const f = (n: number) => Number.isInteger(n) ? n : n.toExponential();
+  throw new AssertionError(
+    `Expected actual: "${f(actual)}" to be close to "${f(expected)}": \
+delta "${f(delta)}" is greater than "${f(tolerance)}"${msgSuffix}`,
+  );
+}
+
+// denoCacheMetadata={"headers":{"x-goog-storage-class":"STANDARD","etag":"\"da0984132d6931894877a69d972c066d\"","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-metageneration":"1","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-content-type-options":"nosniff","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-guploader-uploadid":"AJRbA5UWC3navjQlYi0FOgo_Mx7_vwejvp7ePObn2coZngj4wC-0hgAU_Y-xShZhLo4X6N9v","server":"cloudflare","content-length":"1936","content-type":"text/typescript","accept-ranges":"bytes","access-control-expose-headers":"*","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","alt-svc":"h3=\":443\"; ma=86400","x-goog-generation":"1727173875025667","x-robots-tag":"noindex","x-goog-stored-content-length":"1936","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=6FW%2BkrdZBuiokR8TrbarPjcUFewzMzt9oD0cIZNr44ZtXh%2B6PDnh7hsCczl5cncaCn1afsJ9xi2l3IBwnL60NXVspUb4cw%3D%3D\"}]}","access-control-allow-origin":"*","cache-control":"public, max-age=31536000, immutable","x-goog-hash":"crc32c=N4e3Qw==,md5=2gmEEy1pMYlId6adlywGbQ==","cf-cache-status":"DYNAMIC","vary":"Origin","x-jsr-backend":"modules","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cross-origin-resource-policy":"cross-origin","cf-ray":"9cdae6a7ecb122a0-CDG","x-goog-stored-content-encoding":"identity"},"url":"https://jsr.io/@std/assert/1.0.6/almost_equals.ts","time":1771054657}

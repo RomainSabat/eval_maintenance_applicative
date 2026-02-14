@@ -1,0 +1,33 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+
+/**
+ * Error thrown when an assertion fails.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { AssertionError } from "@std/assert";
+ *
+ * try {
+ *   throw new AssertionError("foo", { cause: "bar" });
+ * } catch (error) {
+ *   if (error instanceof AssertionError) {
+ *     error.message === "foo"; // true
+ *     error.cause === "bar"; // true
+ *   }
+ * }
+ * ```
+ */
+export class AssertionError extends Error {
+  /** Constructs a new instance.
+   *
+   * @param message The error message.
+   * @param options Additional options. This argument is still unstable. It may change in the future release.
+   */
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = "AssertionError";
+  }
+}
+
+// denoCacheMetadata={"headers":{"vary":"Origin","content-length":"842","content-type":"text/typescript","etag":"\"220636f2f04b94c49823526442b68ba7\"","server":"cloudflare","access-control-expose-headers":"*","x-goog-stored-content-encoding":"identity","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Xa%2BdgjlkgGRAm0WBBYqVSCyM4GDtOTblkqDyYT7DpUg2r2v9Dd9kYSDBn5X0g1KpCp3nrvcQvvTCCKowbXepVFXH3YFoFQ%3D%3D\"}]}","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-storage-class":"STANDARD","x-goog-metageneration":"1","x-robots-tag":"noindex","cf-ray":"9cdae6a7eccc22a0-CDG","accept-ranges":"bytes","cache-control":"public, max-age=31536000, immutable","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-hash":"crc32c=F2W4vQ==,md5=IgY28vBLlMSYI1JkQraLpw==","x-goog-stored-content-length":"842","cf-cache-status":"DYNAMIC","access-control-allow-origin":"*","x-content-type-options":"nosniff","expires":"Sun, 14 Feb 2027 07:37:35 GMT","date":"Sat, 14 Feb 2026 07:37:35 GMT","x-goog-generation":"1727173874961591","alt-svc":"h3=\":443\"; ma=86400","cross-origin-resource-policy":"cross-origin","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-guploader-uploadid":"AJRbA5U_tT_RzekUryUpQudsARqg-WojKmS6PIj03uiouumEAdyZzOQQwtFXowYmdCIoQqo-","x-jsr-backend":"modules"},"url":"https://jsr.io/@std/assert/1.0.6/assertion_error.ts","time":1771054657}

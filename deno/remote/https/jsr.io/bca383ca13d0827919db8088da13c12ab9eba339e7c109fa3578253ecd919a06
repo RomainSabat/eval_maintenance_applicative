@@ -1,0 +1,23 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Use this to assert unreachable code.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { unreachable } from "@std/assert";
+ *
+ * unreachable(); // Throws
+ * ```
+ *
+ * @param msg Optional message to include in the error.
+ * @returns Never returns, always throws.
+ */
+export function unreachable(msg?: string): never {
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  throw new AssertionError(`Unreachable${msgSuffix}`);
+}
+
+// denoCacheMetadata={"headers":{"content-length":"591","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","content-type":"text/typescript","x-goog-stored-content-length":"591","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=86400","x-jsr-backend":"modules","x-guploader-uploadid":"AJRbA5VwW5wUE3xj8LddgMWGXfUN6YDjjIiMC3Wts2LREzhmps7E4cbzF-K44S6CetH1dZavejQVMZo","cf-ray":"9cdae6a7ecd022a0-CDG","x-goog-hash":"crc32c=XeJq4Q==,md5=nQXUglADgxs84zGzKtiRrA==","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","vary":"Origin","etag":"\"9d05d4825003831b3ce331b32ad891ac\"","cross-origin-resource-policy":"cross-origin","x-goog-generation":"1727173874894732","server":"cloudflare","x-goog-stored-content-encoding":"identity","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cf-cache-status":"DYNAMIC","cache-control":"public, max-age=31536000, immutable","access-control-expose-headers":"*","accept-ranges":"bytes","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-robots-tag":"noindex","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ciKYcLOyT42GBIsc2I8NnORVyNcnPCRAChByRHy3Pu%2B8cEzQGByeoi%2FvqXhDnG68fGlTiri8p%2FLiUuJtwIgLIdrGfku42A%3D%3D\"}]}","access-control-allow-origin":"*","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-metageneration":"1","x-goog-storage-class":"STANDARD"},"url":"https://jsr.io/@std/assert/1.0.6/unreachable.ts","time":1771054657}

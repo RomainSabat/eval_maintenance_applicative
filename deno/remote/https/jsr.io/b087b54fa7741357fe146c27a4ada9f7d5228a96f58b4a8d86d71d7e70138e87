@@ -1,0 +1,20 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+
+/** Ways that lines in a diff can be different. */
+export type DiffType = "removed" | "common" | "added";
+
+/**
+ * Represents the result of a diff operation.
+ *
+ * @typeParam T The type of the value in the diff result.
+ */
+export interface DiffResult<T> {
+  /** The type of the diff. */
+  type: DiffType;
+  /** The value of the diff. */
+  value: T;
+  /** The details of the diff. */
+  details?: DiffResult<T>[];
+}
+
+// denoCacheMetadata={"headers":{"x-content-type-options":"nosniff","cross-origin-resource-policy":"cross-origin","content-length":"489","last-modified":"Tue, 24 Sep 2024 10:31:08 GMT","vary":"Origin","x-robots-tag":"noindex","accept-ranges":"bytes","x-goog-hash":"crc32c=TIHOsQ==,md5=XStiQXdIvtG70SiKfTiTvA==","x-guploader-uploadid":"AJRbA5X1y16CSOKZQc1HzLFlT-LbXav6X67VktId0g8efZR-n9gTbvKZeRqZilT2QnVTwnHJ","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=5lj6jyQjJEz0ee51x0MC2bS%2BtEQOTz0p74BHP2Y6jZFKIs3iX5Xn0VcLecBXtXf7zSY93nJj0hTle5IUWGkJ4eiHVGFdRA%3D%3D\"}]}","date":"Sat, 14 Feb 2026 07:37:34 GMT","cache-control":"public, max-age=31536000, immutable","x-goog-metageneration":"1","x-goog-stored-content-length":"489","content-type":"text/typescript","x-goog-generation":"1727173868402145","access-control-expose-headers":"*","x-jsr-backend":"modules","alt-svc":"h3=\":443\"; ma=86400","server":"cloudflare","cf-cache-status":"DYNAMIC","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cf-ray":"9cdae6a7ecdc22a0-CDG","etag":"\"5d2b62417748bed1bbd1288a7d3893bc\"","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-stored-content-encoding":"identity","access-control-allow-origin":"*","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-storage-class":"STANDARD"},"url":"https://jsr.io/@std/internal/1.0.4/types.ts","time":1771054657}

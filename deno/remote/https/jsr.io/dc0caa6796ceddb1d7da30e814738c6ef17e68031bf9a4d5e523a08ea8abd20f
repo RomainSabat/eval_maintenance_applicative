@@ -1,0 +1,32 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` match RegExp `expected`. If not
+ * then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertMatch } from "@std/assert";
+ *
+ * assertMatch("Raptor", /Raptor/); // Doesn't throw
+ * assertMatch("Denosaurus", /Raptor/); // Throws
+ * ```
+ *
+ * @param actual The actual value to be matched.
+ * @param expected The expected pattern to match.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertMatch(
+  actual: string,
+  expected: RegExp,
+  msg?: string,
+) {
+  if (expected.test(actual)) return;
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  msg = `Expected actual: "${actual}" to match: "${expected}"${msgSuffix}`;
+  throw new AssertionError(msg);
+}
+
+// denoCacheMetadata={"headers":{"access-control-allow-origin":"*","x-goog-hash":"crc32c=ZUGEtQ==,md5=RgRIs6swZJZdQsD7V4z+4Q==","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","date":"Sat, 14 Feb 2026 07:37:35 GMT","x-goog-generation":"1727173874962143","content-type":"text/typescript","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cache-control":"public, max-age=31536000, immutable","cf-ray":"9cdae6a7ecbf22a0-CDG","cf-cache-status":"DYNAMIC","x-robots-tag":"noindex","accept-ranges":"bytes","x-jsr-backend":"modules","x-goog-stored-content-encoding":"identity","x-goog-metageneration":"1","content-length":"906","alt-svc":"h3=\":443\"; ma=86400","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","cross-origin-resource-policy":"cross-origin","x-guploader-uploadid":"AJRbA5V4WlxZ8lvvFYj71bAPbIVcIrv144wjEYrjZcuRo9ttAvOfew-ldfhUDctPuByZXp8o","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=PKbpbuhoeyzm6ILdu%2BdeD7T7xnkujRVPY0p6ZzFH%2F5Tyz9icFdW5%2BrEnr8oxyYF%2BX6BLHab%2Bpz38xDHchIG2LA27owSu9w%3D%3D\"}]}","etag":"\"460448b3ab3064965d42c0fb578cfee1\"","server":"cloudflare","vary":"Origin","access-control-expose-headers":"*","x-goog-stored-content-length":"906","x-goog-storage-class":"STANDARD","x-content-type-options":"nosniff","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"},"url":"https://jsr.io/@std/assert/1.0.6/match.ts","time":1771054657}

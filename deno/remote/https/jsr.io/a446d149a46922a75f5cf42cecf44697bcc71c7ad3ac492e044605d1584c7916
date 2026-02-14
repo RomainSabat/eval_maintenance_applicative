@@ -1,0 +1,23 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Forcefully throws a failed assertion.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { fail } from "@std/assert";
+ *
+ * fail("Deliberately failed!"); // Throws
+ * ```
+ *
+ * @param msg Optional message to include in the error.
+ * @returns Never returns, always throws.
+ */
+export function fail(msg?: string): never {
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  throw new AssertionError(`Failed assertion${msgSuffix}`);
+}
+
+// denoCacheMetadata={"headers":{"content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-jsr-backend":"modules","x-guploader-uploadid":"AJRbA5Ue201ZdxuEpEBIOm7k87vbJwXwQ9lLNUjT-r99Z6tCLvvOvBmOrH_UnILr4P5wFcHRguwJtVw","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","cf-cache-status":"DYNAMIC","alt-svc":"h3=\":443\"; ma=86400","x-goog-hash":"crc32c=Y03suw==,md5=/2cKND/yP0JjOR0b2uVnsg==","x-goog-generation":"1727173874988451","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-goog-stored-content-encoding":"identity","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=UNPOYzWznWQMZ%2Bh4CPYVBaXzdHYN%2FMWWvYVk2CkrTA%2Fui6bY9bJvACuATcX3PAaDdcZKAjg1nkjjKzbYpokBeFuc%2BwIBuQ%3D%3D\"}]}","content-length":"598","cf-ray":"9cdae6a7ecce22a0-CDG","access-control-allow-origin":"*","accept-ranges":"bytes","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","vary":"Origin","access-control-expose-headers":"*","x-goog-stored-content-length":"598","x-goog-metageneration":"1","x-goog-storage-class":"STANDARD","content-type":"text/typescript","etag":"\"ff670a343ff23f4263391d1bdae567b2\"","x-content-type-options":"nosniff","x-robots-tag":"noindex","server":"cloudflare","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cross-origin-resource-policy":"cross-origin","cache-control":"public, max-age=31536000, immutable"},"url":"https://jsr.io/@std/assert/1.0.6/fail.ts","time":1771054657}

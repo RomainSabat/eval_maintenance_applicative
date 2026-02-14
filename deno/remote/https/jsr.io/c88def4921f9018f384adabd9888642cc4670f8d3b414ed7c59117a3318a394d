@@ -1,0 +1,113 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { assertIsError } from "./is_error.ts";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Executes a function, expecting it to throw. If it does not, then it
+ * throws.
+ *
+ * To assert that an asynchronous function rejects, use
+ * {@linkcode assertRejects}.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertThrows } from "@std/assert";
+ *
+ * assertThrows(() => { throw new TypeError("hello world!"); }); // Doesn't throw
+ * assertThrows(() => console.log("hello world!")); // Throws
+ * ```
+ *
+ * @param fn The function to execute.
+ * @param msg The optional message to display if the assertion fails.
+ * @returns The error that was thrown.
+ */
+export function assertThrows(
+  fn: () => unknown,
+  msg?: string,
+): unknown;
+/**
+ * Executes a function, expecting it to throw. If it does not, then it
+ * throws. An error class and a string that should be included in the
+ * error message can also be asserted.
+ *
+ * To assert that an asynchronous function rejects, use
+ * {@linkcode assertRejects}.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertThrows } from "@std/assert";
+ *
+ * assertThrows(() => { throw new TypeError("hello world!"); }, TypeError); // Doesn't throw
+ * assertThrows(() => { throw new TypeError("hello world!"); }, RangeError); // Throws
+ * ```
+ *
+ * @typeParam E The error class to assert.
+ * @param fn The function to execute.
+ * @param ErrorClass The error class to assert.
+ * @param msgIncludes The string that should be included in the error message.
+ * @param msg The optional message to display if the assertion fails.
+ * @returns The error that was thrown.
+ */
+export function assertThrows<E extends Error = Error>(
+  fn: () => unknown,
+  // deno-lint-ignore no-explicit-any
+  ErrorClass: abstract new (...args: any[]) => E,
+  msgIncludes?: string,
+  msg?: string,
+): E;
+export function assertThrows<E extends Error = Error>(
+  fn: () => unknown,
+  errorClassOrMsg?:
+    // deno-lint-ignore no-explicit-any
+    | (abstract new (...args: any[]) => E)
+    | string,
+  msgIncludesOrMsg?: string,
+  msg?: string,
+): E | Error | unknown {
+  // deno-lint-ignore no-explicit-any
+  let ErrorClass: (abstract new (...args: any[]) => E) | undefined;
+  let msgIncludes: string | undefined;
+  let err;
+
+  if (typeof errorClassOrMsg !== "string") {
+    if (
+      errorClassOrMsg === undefined ||
+      errorClassOrMsg?.prototype instanceof Error ||
+      errorClassOrMsg?.prototype === Error.prototype
+    ) {
+      ErrorClass = errorClassOrMsg;
+      msgIncludes = msgIncludesOrMsg;
+    } else {
+      msg = msgIncludesOrMsg;
+    }
+  } else {
+    msg = errorClassOrMsg;
+  }
+  let doesThrow = false;
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  try {
+    fn();
+  } catch (error) {
+    if (ErrorClass) {
+      if (error instanceof Error === false) {
+        throw new AssertionError(`A non-Error object was thrown${msgSuffix}`);
+      }
+      assertIsError(
+        error,
+        ErrorClass,
+        msgIncludes,
+        msg,
+      );
+    }
+    err = error;
+    doesThrow = true;
+  }
+  if (!doesThrow) {
+    msg = `Expected function to throw${msgSuffix}`;
+    throw new AssertionError(msg);
+  }
+  return err;
+}
+
+// denoCacheMetadata={"headers":{"content-length":"3272","cross-origin-resource-policy":"cross-origin","x-goog-hash":"crc32c=xBeE4A==,md5=6MYH3Lm/X4SOi3z1xvwLYg==","content-type":"text/typescript","age":"0","cf-cache-status":"DYNAMIC","x-guploader-uploadid":"AJRbA5VK4-0YtcPNA3T-_ixziG3QMoloquGaw_oGOew3y4DAw_UDWSjN9G_b83Ae0rA2Zwks8Z7SPJU","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-storage-class":"STANDARD","vary":"Origin","access-control-expose-headers":"*","alt-svc":"h3=\":443\"; ma=86400","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=P48V9HyiIw%2FOc%2BuvEKL7hv76hGPa3hvgNkAguLBG50j9U38znRTnu%2F4MNAQLAUFVQj6qmzeaocxprECve3I9msCLNhEsPQ%3D%3D\"}]}","x-content-type-options":"nosniff","x-goog-stored-content-encoding":"identity","x-jsr-backend":"modules","cache-control":"public, max-age=31536000, immutable","cf-ray":"9cdae6a7ecca22a0-CDG","etag":"\"e8c607dcb9bf5f848e8b7cf5c6fc0b62\"","x-goog-metageneration":"1","expires":"Sun, 14 Feb 2027 07:37:34 GMT","x-goog-stored-content-length":"3272","access-control-allow-origin":"*","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-goog-generation":"1727173875005198","last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-robots-tag":"noindex","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","accept-ranges":"bytes","server":"cloudflare"},"url":"https://jsr.io/@std/assert/1.0.6/throws.ts","time":1771054657}

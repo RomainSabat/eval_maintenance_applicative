@@ -1,0 +1,32 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` not match RegExp `expected`. If match
+ * then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertNotMatch } from "@std/assert";
+ *
+ * assertNotMatch("Denosaurus", /Raptor/); // Doesn't throw
+ * assertNotMatch("Raptor", /Raptor/); // Throws
+ * ```
+ *
+ * @param actual The actual value to match.
+ * @param expected The expected value to not match.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertNotMatch(
+  actual: string,
+  expected: RegExp,
+  msg?: string,
+) {
+  if (!expected.test(actual)) return;
+  const msgSuffix = msg ? `: ${msg}` : ".";
+  msg = `Expected actual: "${actual}" to not match: "${expected}"${msgSuffix}`;
+  throw new AssertionError(msg);
+}
+
+// denoCacheMetadata={"headers":{"date":"Sat, 14 Feb 2026 07:37:34 GMT","x-goog-metageneration":"1","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=8LyWpsSV6QskTKE4zu8dRbCmgp%2FI15Ydk%2BEYD0Tb9Y70x6TSufiNlolsiGPdOoI0g%2F91GO0GU1wIbwJB39NQ9x3%2BRvijnw%3D%3D\"}]}","server":"cloudflare","cache-control":"public, max-age=31536000, immutable","access-control-allow-origin":"*","alt-svc":"h3=\":443\"; ma=86400","x-goog-generation":"1727173874894365","x-robots-tag":"noindex","access-control-expose-headers":"*","x-guploader-uploadid":"AJRbA5XCa6hh36tvNL_-8V7fDQXDIq0URViR29BnqNDvlLO1DC7pEYL0rkXi3y9QP1kzyjq1XyRPDWE","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","accept-ranges":"bytes","etag":"\"dbebfbf218f4a573ff69654a3fce5d8d\"","cross-origin-resource-policy":"cross-origin","x-jsr-backend":"modules","content-type":"text/typescript","x-goog-storage-class":"STANDARD","x-goog-hash":"crc32c=yZENgQ==,md5=2+v78hj0pXP/aWVKP85djQ==","x-goog-stored-content-encoding":"identity","vary":"Origin","expires":"Sun, 14 Feb 2027 07:37:34 GMT","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","cf-cache-status":"DYNAMIC","cf-ray":"9cdae6a7ecc222a0-CDG","content-length":"926","x-goog-stored-content-length":"926","x-content-type-options":"nosniff"},"url":"https://jsr.io/@std/assert/1.0.6/not_match.ts","time":1771054657}

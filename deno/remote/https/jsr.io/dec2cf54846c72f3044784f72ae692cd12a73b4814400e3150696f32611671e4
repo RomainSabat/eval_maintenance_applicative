@@ -1,0 +1,49 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+
+/** A library of assertion functions.
+ * If the assertion is false an `AssertionError` will be thrown which will
+ * result in pretty-printed diff of failing assertion.
+ *
+ * This module is browser compatible, but do not rely on good formatting of
+ * values for AssertionError messages in browsers.
+ *
+ * ```ts ignore
+ * import { assert } from "@std/assert";
+ *
+ * assert("I am truthy"); // Doesn't throw
+ * assert(false); // Throws `AssertionError`
+ * ```
+ *
+ * @module
+ */
+
+export * from "./almost_equals.ts";
+export * from "./array_includes.ts";
+export * from "./equals.ts";
+export * from "./exists.ts";
+export * from "./false.ts";
+export * from "./greater_or_equal.ts";
+export * from "./greater.ts";
+export * from "./instance_of.ts";
+export * from "./is_error.ts";
+export * from "./less_or_equal.ts";
+export * from "./less.ts";
+export * from "./match.ts";
+export * from "./not_equals.ts";
+export * from "./not_instance_of.ts";
+export * from "./not_match.ts";
+export * from "./not_strict_equals.ts";
+export * from "./object_match.ts";
+export * from "./rejects.ts";
+export * from "./strict_equals.ts";
+export * from "./string_includes.ts";
+export * from "./throws.ts";
+export * from "./assert.ts";
+export * from "./assertion_error.ts";
+export * from "./equal.ts";
+export * from "./fail.ts";
+export * from "./unimplemented.ts";
+export * from "./unreachable.ts";
+
+// denoCacheMetadata={"headers":{"x-goog-generation":"1727173874947010","etag":"\"5e538d26ecb529da5cbec64e226168da\"","content-type":"text/typescript","vary":"Origin","x-goog-hash":"crc32c=Ey9xJw==,md5=XlONJuy1KdpcvsZOImFo2g==","server":"cloudflare","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-guploader-uploadid":"AJRbA5WqkWuKuxEpri_c1u-CjmJQYhjj2kWKH36MK7tRyUKDN-lMM5qW9H3fKPR1O-BeVVFh2Sj7PXs","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","cf-ray":"9cdae6a7ecaf22a0-CDG","x-goog-metageneration":"1","x-goog-stored-content-encoding":"identity","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-jsr-backend":"modules","x-goog-stored-content-length":"1476","x-goog-storage-class":"STANDARD","age":"0","access-control-expose-headers":"*","cf-cache-status":"DYNAMIC","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=5adNqH0tJP6e6ZdqkFphSLHBPl0Vy7tuypPF6IK%2FbmMplH0zrRwBvcdJl44S3lV4T2EOyM0oUId6duxi4RVyXrBULp%2BJOA%3D%3D\"}]}","x-robots-tag":"noindex","accept-ranges":"bytes","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","cross-origin-resource-policy":"cross-origin","content-length":"1476","access-control-allow-origin":"*","expires":"Sun, 14 Feb 2027 07:37:34 GMT","cache-control":"public, max-age=31536000, immutable","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=86400"},"url":"https://jsr.io/@std/assert/1.0.6/mod.ts","time":1771054657}

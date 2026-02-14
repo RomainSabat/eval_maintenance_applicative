@@ -1,0 +1,33 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that actual is not null or undefined.
+ * If not then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertExists } from "@std/assert";
+ *
+ * assertExists("something"); // Doesn't throw
+ * assertExists(undefined); // Throws
+ * ```
+ *
+ * @typeParam T The type of the actual value.
+ * @param actual The actual value to check.
+ * @param msg The optional message to include in the error if the assertion fails.
+ */
+export function assertExists<T>(
+  actual: T,
+  msg?: string,
+): asserts actual is NonNullable<T> {
+  if (actual === undefined || actual === null) {
+    const msgSuffix = msg ? `: ${msg}` : ".";
+    msg =
+      `Expected actual: "${actual}" to not be null or undefined${msgSuffix}`;
+    throw new AssertionError(msg);
+  }
+}
+
+// denoCacheMetadata={"headers":{"last-modified":"Tue, 24 Sep 2024 10:31:15 GMT","x-goog-generation":"1727173875003306","expires":"Sun, 14 Feb 2027 07:37:34 GMT","x-jsr-backend":"modules","cf-cache-status":"DYNAMIC","access-control-expose-headers":"*","cf-ray":"9cdae6a7ecb622a0-CDG","content-length":"937","vary":"Origin","alt-svc":"h3=\":443\"; ma=86400","etag":"\"972fdcda0f616916606ded5a7e327500\"","content-type":"text/typescript","x-goog-stored-content-length":"937","x-guploader-uploadid":"AJRbA5VG6tsDJGBNllGrtH7N6YdqsKFLWWuiczIGcDdT9qiejvViKsp-3ulv_T9cstLR3JwN2Qhh69s","server":"cloudflare","x-robots-tag":"noindex","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","x-goog-stored-content-encoding":"identity","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=YB4qAWnJXqxZ4XOJlfLJWjk1L7yTUnsRgX1d%2BrW8MMXR9wEd9Bxj1TJiToL0ISe%2B4v0IL%2BFbsIssuSBVvqRRn%2FTQasBmyw%3D%3D\"}]}","accept-ranges":"bytes","access-control-allow-origin":"*","cache-control":"public, max-age=31536000, immutable","x-content-type-options":"nosniff","cross-origin-resource-policy":"cross-origin","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-metageneration":"1","date":"Sat, 14 Feb 2026 07:37:34 GMT","x-goog-storage-class":"STANDARD","x-goog-hash":"crc32c=MyZfYQ==,md5=ly/c2g9haRZgbe1afjJ1AA=="},"url":"https://jsr.io/@std/assert/1.0.6/exists.ts","time":1771054657}

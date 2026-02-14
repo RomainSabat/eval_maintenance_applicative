@@ -1,0 +1,28 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/** Assertion condition for {@linkcode assertFalse}. */
+export type Falsy = false | 0 | 0n | "" | null | undefined;
+
+/**
+ * Make an assertion, error will be thrown if `expr` have truthy value.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertFalse } from "@std/assert";
+ *
+ * assertFalse(false); // Doesn't throw
+ * assertFalse(true); // Throws
+ * ```
+ *
+ * @param expr The expression to test.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertFalse(expr: unknown, msg = ""): asserts expr is Falsy {
+  if (expr) {
+    throw new AssertionError(msg);
+  }
+}
+
+// denoCacheMetadata={"headers":{"x-goog-stored-content-encoding":"identity","x-robots-tag":"noindex","accept-ranges":"bytes","etag":"\"658b19fe4ee52b441979dc6a21e3aafc\"","cf-cache-status":"DYNAMIC","x-goog-hash":"crc32c=zFwo3w==,md5=ZYsZ/k7lK0QZedxqIeOq/A==","x-content-type-options":"nosniff","access-control-expose-headers":"*","x-guploader-uploadid":"AGQBYWxd7GD4e0Bm-pwdHfD81ypJ7xlVQAQj3_fogxUJrA0dUMJvYSSD-2fvqxhgPaF7pzg","content-type":"text/typescript","x-jsr-backend":"modules","x-goog-generation":"1727173874845518","x-goog-storage-class":"STANDARD","cache-control":"public, max-age=31536000, immutable","content-length":"776","access-control-allow-origin":"*","cross-origin-resource-policy":"cross-origin","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=wOZm6el5wA5Ni7U5XzCchxuACwAeDY9GHOk1dcSkMIJFBJLQ8IwH1gbjoGBsq3sfqevJVAYhEmXWppcVlf1QCiEJ3HUltQ%3D%3D\"}]}","x-goog-stored-content-length":"776","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","vary":"Origin","alt-svc":"h3=\":443\"; ma=86400","date":"Sat, 14 Feb 2026 07:37:34 GMT","server":"cloudflare","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","x-goog-metageneration":"1","cf-ray":"9cdae6a7ecb822a0-CDG","expires":"Sun, 14 Feb 2027 07:37:34 GMT"},"url":"https://jsr.io/@std/assert/1.0.6/false.ts","time":1771054657}

@@ -1,0 +1,32 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { format } from "jsr:@std/internal@^1.0.4/format";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` is greater than `expected`.
+ * If not then throw.
+ *
+ * @example Usage
+ * ```ts ignore
+ * import { assertGreater } from "@std/assert";
+ *
+ * assertGreater(2, 1); // Doesn't throw
+ * assertGreater(1, 1); // Throws
+ * assertGreater(0, 1); // Throws
+ * ```
+ *
+ * @typeParam T The type of the values to compare.
+ * @param actual The actual value to compare.
+ * @param expected The expected value to compare.
+ * @param msg The optional message to display if the assertion fails.
+ */
+export function assertGreater<T>(actual: T, expected: T, msg?: string) {
+  if (actual > expected) return;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+  throw new AssertionError(msg ?? `Expect ${actualString} > ${expectedString}`);
+}
+
+// denoCacheMetadata={"headers":{"x-goog-stored-content-encoding":"identity","x-goog-storage-class":"STANDARD","content-length":"1016","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","cf-ray":"9cdae6a7ecba22a0-CDG","content-security-policy":"default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; frame-ancestors 'none'; sandbox; form-action 'none';","x-goog-generation":"1727173874854091","x-guploader-uploadid":"AJRbA5VroagGQa3L3Xsv1McRGje5pXahPytVhH4xKPkiPzB79JzVfhJFm668aKJ6L7NDkQvtKT3XNf0","x-goog-stored-content-length":"1016","cache-control":"public, max-age=31536000, immutable","date":"Sat, 14 Feb 2026 07:37:34 GMT","accept-ranges":"bytes","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=wB%2BM6AAcmNH6DXhOqnrsNVjJXH3bASY15tkUG7HD5Or3VvR%2FNVUztDeh5z49Z1f5lFXp33HIh9oOqwKaTf0xzk3cNB0Usg%3D%3D\"}]}","alt-svc":"h3=\":443\"; ma=86400","server":"cloudflare","content-type":"text/typescript","access-control-expose-headers":"*","cf-cache-status":"DYNAMIC","vary":"Origin","expires":"Sun, 14 Feb 2027 07:37:34 GMT","x-jsr-backend":"modules","access-control-allow-origin":"*","last-modified":"Tue, 24 Sep 2024 10:31:14 GMT","x-goog-metageneration":"1","etag":"\"0fdb5a84608fd5a2f0ded0886d8e83cb\"","cross-origin-resource-policy":"cross-origin","x-content-type-options":"nosniff","x-robots-tag":"noindex","x-goog-hash":"crc32c=E3LJxw==,md5=D9tahGCP1aLw3tCIbY6Dyw=="},"url":"https://jsr.io/@std/assert/1.0.6/greater.ts","time":1771054657}
