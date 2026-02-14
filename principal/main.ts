@@ -28,7 +28,7 @@ while (continuer) {
         const titre = prompt("Entrez le titre du livre à rechercher :");
         const livreTrouve = bliblio.rechercheLivre(titre+"");
         if (livreTrouve) {
-            console.log(`Livre trouvé : ${livreTrouve.getTitre()} par ${livreTrouve.getAuteur()}`);
+            console.log(`Livre trouvé : ${livreTrouve.titre} par ${livreTrouve.auteur}`);
         } else {
             console.log("Livre non trouvé.");
         }

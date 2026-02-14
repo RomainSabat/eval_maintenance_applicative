@@ -8,7 +8,7 @@ export class Blibliothèque {
     }
 
     ajouterLivre(livre: Livre) : void{
-        if (this.rechercheLivre(livre.getTitre()) === null) {
+        if (this.rechercheLivre(livre.titre) === null) {
             this.livres.push(livre);
         }
     }
@@ -22,7 +22,7 @@ export class Blibliothèque {
 
     rechercheLivre(titre: string): Livre | null {
         for (const livre of this.livres) {
-            if (livre.getTitre() === titre) {
+            if (livre.titre === titre) {
                 return livre;
             }
         }
