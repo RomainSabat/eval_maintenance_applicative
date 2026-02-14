@@ -14,6 +14,9 @@ export class Blibliothèque {
     }
 
     getLivres(): Livre[] {
+        if (this.livres.length === 0) {
+            console.log("La bibliothèque est vide."); 
+        }
         return this.livres;
     }
 

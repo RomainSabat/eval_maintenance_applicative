@@ -7,3 +7,4 @@ Deno.test("test de création d'un livre", () => {
   assertEquals(livre.getTitre(), "Le Petit Prince");
   assertEquals(livre.getAuteur(), "Antoine de Saint-Exupéry");
 });
+

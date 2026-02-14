@@ -12,3 +12,5 @@ bliblio.ajouterLivre(livre3);
 
 console.log(bliblio.getLivres());
 console.log(bliblio.rechercheLivre("Le Petit Prince"));
+
+

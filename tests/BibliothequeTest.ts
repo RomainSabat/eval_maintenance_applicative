@@ -38,3 +38,16 @@ Deno.test("test de recherche d'un livre qui n'existe pas", () => {
   bliblio.ajouterLivre(livre);
   assertEquals(bliblio.rechercheLivre("1984"), null);
 });
+
+Deno.test("test de recherche d'un livre dans une bibliothèque vide", () => {
+  const bliblio = new Blibliothèque();
+  assertEquals(bliblio.rechercheLivre("Le Petit Prince"), null);
+});
+
+Deno.test("test d'affichage de la bibliothèque vide", () => {
+  const bliblio = new Blibliothèque();
+  console.log = (message: string) => {
+    assertEquals(message, "La bibliothèque est vide.");
+  };
+  bliblio.getLivres();
+});
