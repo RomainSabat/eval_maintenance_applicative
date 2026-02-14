@@ -1,4 +1,4 @@
-import { Livre } from "../controller/livre.ts";
+import { Livre } from "../modele/livre.ts";
 
 import { assertEquals, assertThrows } from "jsr:@std/assert";
 

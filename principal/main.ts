@@ -1,5 +1,5 @@
-import { Blibliothèque } from "../controller/blibliothèque.ts";
-import { Livre } from "../controller/livre.ts";
+import { Blibliothèque } from "../modele/blibliothèque.ts";
+import { Livre } from "../modele/livre.ts";
 
 const livre1 = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry");
 const livre2 = new Livre("1984", "George Orwell");
