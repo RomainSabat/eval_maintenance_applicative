@@ -9,7 +9,7 @@
  2. TESTS
     pour éxecuter les test : 
     ```bash
-    deno test ./tests/BibliothequeTest.ts
+    deno test tests/
     ```
 
 

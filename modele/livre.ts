@@ -27,5 +27,4 @@ export class Livre {
     return this.auteur;
   }
 
-  
 }

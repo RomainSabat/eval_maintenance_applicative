@@ -1,7 +1,7 @@
-import { Blibliothèque } from "../controller/blibliothèque.ts";
+import { Blibliothèque } from "../modele/blibliothèque.ts";
 
 import { assertEquals } from "jsr:@std/assert";
-import { Livre } from "../controller/livre.ts";
+import { Livre } from "../modele/livre.ts";
 
 Deno.test("test de création d'une bibliothèque", () => {
   const bliblio = new Blibliothèque();
